@@ -7,12 +7,11 @@
  * Mic related stuff
  */
 
-#define NOISE 50
+#define NOISE 50 // this is the number of samples 
 
 #define STATE_NOISE 0
 #define STATE_LISTENING 1
 
-// These constants won't change. They're used to give names to the pins used:
 const int micPin = A0;  // Analog input pin that the potentiometer is attached to
 
 int noiseArray[NOISE];
@@ -42,7 +41,6 @@ void setup() {
 }
 
 void loop() {
-  //theaterChaseRainbow(50);
   
   switch(state) {
     case STATE_NOISE:
@@ -59,7 +57,8 @@ void loop() {
         
         Serial.print("Noise avg: ");
         Serial.println(noiseAvg);
-        
+
+        colorWipe(strip.Color(255, 0, 0), 50); // READY TO GO!
         state = STATE_LISTENING;
       }
       break;
@@ -72,8 +71,8 @@ void loop() {
       int brightnessValue = constrain(map(micValue, 0, 80, 0, 100), 0, 100);
       Serial.println(brightnessValue);
 
-      if(brightnessValue > 80)
-        rainbow();
+      if(brightnessValue > 80) // if you're having issues with the lights not triggering, mess about with this value (between 0~100)
+        rainbow(); // not happy with the animation? change it here!
       else
         colorShow(strip.Color(0, 0, 0)); // random(0,255)*brightnessValue/100
       break;
